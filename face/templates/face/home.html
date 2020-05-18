@@ -1,0 +1,15 @@
+{% extends "face/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset>
+            <button type="button" class="btn btn-primary btn-lg">upload image</button>
+            <img class="img-responsive" src="default.jpg">
+        </fieldset>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+        </div>
+    </form>
+{% endblock content %}
