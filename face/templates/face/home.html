@@ -2,15 +2,21 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-    <form method="POST">
-        {% csrf_token %}
-        <fieldset>
-            <button type="button" class="btn btn-primary btn-lg">upload image</button>
-            <img class="img-responsive" src="default.jpg">
-        </fieldset>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
-        </div>
+
+    <!---
+    <h2>new face</h2>
+    <form method="POST" class="post-form">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">save</button>
     </form>
-    {{ image }}
+    --->
+    <form method="POST" class="uni-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="save btn btn-default">upload</button>
+    </form>
+
+    {% for n in image %}
+    <img class="img-responsive" src="{{ n.image.url }}">
+    {% endfor %}
 {% endblock content %}

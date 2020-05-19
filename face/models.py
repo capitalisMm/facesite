@@ -6,8 +6,7 @@ from django.contrib.auth.models import User
 class Post(models.Model):
     title = models.CharField(max_length=32)
     published_date = models.DateTimeField(default=timezone.now)
-    image = models.ImageField(default='default.jpg', upload_to='profile_pics')
-
+    image = models.ImageField(upload_to='profile_pics/')
 
     def publish(self):
         self.published_date = timezone.now()
