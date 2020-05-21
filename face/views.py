@@ -8,15 +8,17 @@ from .forms import PostForm
 # home page
 def home(request):
     # messages.success(request, f'image chosen successfully')
+    submitted = False
     if request.method == "POST":
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            submitted = True
     else:
         form = PostForm()
 
-    image = Post.objects.all()
-    return render(request, 'face/home.html', {'image': image, 'form': form})
+    upload = Post.objects.last()
+    return render(request, 'face/home.html', {'upload': upload, 'form': form, 'submitted': submitted})
 
 
 # about page

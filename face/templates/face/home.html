@@ -15,8 +15,8 @@
         {{ form|crispy }}
         <button type="submit" class="save btn btn-default">upload</button>
     </form>
-
-    {% for n in image %}
-    <img class="img-responsive" src="{{ n.image.url }}">
-    {% endfor %}
+    {% if submitted %}
+        <img class="img-responsive" src="{{ upload.image.url }}">
+        <h1>{{ upload }}</h1>
+    {% endif %}
 {% endblock content %}
