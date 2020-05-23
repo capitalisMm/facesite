@@ -13,16 +13,16 @@ def home(request):
     # initialize
     submitted = False
     ml_magic = ''
+    upload = ''
 
     if request.method == "POST":
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             submitted = True
+            upload = Post.objects.last()
     else:
         form = PostForm()
-
-    upload = Post.objects.last()
 
     # if user submitted image
     if submitted:
