@@ -7,6 +7,7 @@ class Post(models.Model):
     title = models.CharField(max_length=32)
     published_date = models.DateTimeField(default=timezone.now)
     image = models.ImageField(upload_to='profile_pics/')
+    check = models.BooleanField('is checked', default=False)
 
     def publish(self):
         self.published_date = timezone.now()
@@ -14,6 +15,7 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
 
 
 
