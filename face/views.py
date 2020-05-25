@@ -3,7 +3,7 @@ from .models import Post
 from django.contrib import messages
 from django.utils import timezone
 from .forms import PostForm
-from .bitch import load_encodings, load_names, magic
+from .bitch import load_encodings, load_names, magic, face_accuracy, face_close_match
 
 
 # home page
@@ -14,6 +14,8 @@ def home(request):
     submitted = False
     ml_magic = ''
     upload = ''
+    acc = ''
+    sim = None
 
     if request.method == "POST":
         form = PostForm(request.POST, request.FILES)
@@ -28,11 +30,12 @@ def home(request):
     if submitted:
         encodings = load_encodings()
         names = load_names()
-
-        ml_magic = magic(upload.image, encodings, names)
+        acc = face_accuracy(upload.image, encodings)
+        sim = face_close_match(upload.image, encodings, names)
+        # ml_magic = magic(upload.image, encodings, names)
 
     return render(request, 'face/home.html', {'upload': upload, 'form': form,
-                                              'submitted': submitted, 'ml_magic': ml_magic})
+                                              'submitted': submitted, 'ml_magic': ml_magic, 'acc': acc, 'sim': sim})
 
 
 # about page

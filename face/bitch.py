@@ -2,17 +2,19 @@ import face_recognition
 from PIL import Image, ImageDraw
 from tqdm import tqdm
 import pickle
+import math
+from face_recognition import face_distance
 
 
 def load_encodings():
     # load pickled encodings
-    with open('/home/tony/PycharmProjects/untitled/facesite/face/dataset_faces.dat', 'rb') as f:
+    with open('/home/tony/PycharmProjects/facesite/face/dataset_faces.dat', 'rb') as f:
         return pickle.load(f)
 
 
 def load_names():
     # load pickled names
-    with open('/home/tony/PycharmProjects/untitled/facesite/face/dataset_names.dat', 'rb') as g:
+    with open('/home/tony/PycharmProjects/facesite/face/dataset_names.dat', 'rb') as g:
         return pickle.load(g)
 
 
@@ -69,6 +71,54 @@ def magic(image, encodings, names):
             file_name = file_name + " and " + save_name[i]
 
     file_name = file_name + ".jpg"
-    pil_image.save('/home/tony/PycharmProjects/untitled/facesite/media/ml_pics/' + file_name, "JPEG")
+    pil_image.save('/home/tony/PycharmProjects/facesite/media/ml_pics/' + file_name, "JPEG")
 
     return file_name
+
+
+def face_accuracy(image, encodings):
+    # load images for use
+    unknown_image = face_recognition.load_image_file(image)
+    unknown_encoding = face_recognition.face_encodings(unknown_image)[0]
+
+    # find distance between encodings and image
+    distance = face_distance(encodings, unknown_encoding)
+
+    # find closest one
+    print(distance)
+    close = distance.min()
+
+    face_match_threshold = .6
+
+    if close > face_match_threshold:
+        r = (1.0 - face_match_threshold)
+        linear_val = (1.0 - close) / (r * 2.0)
+        return linear_val
+    else:
+        r = face_match_threshold
+        linear_val = 1.0 - (close / (r * 2.0))
+        return linear_val + ((1.0 - linear_val) * math.pow((linear_val - 0.5) * 2, 0.2))
+
+
+def face_close_match(image, encodings, names):
+    # load images for use
+    unknown_image = face_recognition.load_image_file(image)
+    unknown_encoding = face_recognition.face_encodings(unknown_image)[0]
+
+    # find distance between encodings and image
+    distance = face_distance(encodings, unknown_encoding)
+
+    # find index of max
+    print(distance)
+    ind = distance.argmin()
+
+    # name of the max
+    # names.sort()
+    name = names[ind]
+
+    source = name + '/' + name + '_face-1.jpg'
+
+    for n in range(len(names)):
+        print(names[n]),
+
+    return source

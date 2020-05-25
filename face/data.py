@@ -7,15 +7,16 @@ encodings = []
 names = []
 
 # train directory
-train_dir = os.listdir('/home/tony/Desktop/programming/try_again/train_dir/')
+train_dir = os.listdir('/home/tony/PycharmProjects/facesite/media/train_dir/')
 
 # loop through each person
 for person in tqdm(train_dir):
-    pix = os.listdir("/home/tony/Desktop/programming/try_again/train_dir/" + person)
+    pix = os.listdir("/home/tony/PycharmProjects/facesite/media/train_dir/" + person)
 
     # loop through each training image for current person
     for person_img in pix:
-        face = face_recognition.load_image_file("/home/tony/Desktop/programming/try_again/train_dir/" + person + "/" + person_img)
+        face = face_recognition.load_image_file("/home/tony/PycharmProjects/facesite/media/train_dir/"
+                                                + person + "/" + person_img)
         face_bounding_boxes = face_recognition.face_locations(face)
 
         # if only one face
@@ -34,3 +35,4 @@ with open('dataset_faces.dat', 'wb') as f:
 
 with open ('dataset_names.dat', 'wb') as g:
     pickle.dump(names, g)
+    
