@@ -25,8 +25,9 @@ def home(request):
         if form.is_valid():
             form.save()
             submitted = True
-            checked = True
             upload = Post.objects.last()
+            checked = form.cleaned_data.get('check')
+            print(checked)
     else:
         form = PostForm()
 
@@ -37,10 +38,10 @@ def home(request):
         names = load_names()
 
         # accuracy of image to known images
-        acc = face_accuracy(upload.image, encodings)
+        acc = face_accuracy(upload.image, encodings, checked)
 
         # similar image to the one uploaded
-        sim = face_close_match(upload.image, encodings, names)
+        sim = face_close_match(upload.image, encodings, names, checked)
 
     return render(request, 'face/home.html', {'upload': upload, 'form': form,
                                               'submitted': submitted, 'ml_magic': ml_magic,

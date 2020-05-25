@@ -4,6 +4,7 @@ from tqdm import tqdm
 import pickle
 import math
 from face_recognition import face_distance
+import numpy as np
 
 
 def load_encodings():
@@ -76,7 +77,7 @@ def magic(image, encodings, names):
     return file_name
 
 
-def face_accuracy(image, encodings):
+def face_accuracy(image, encodings, checked):
     # load images for use
     unknown_image = face_recognition.load_image_file(image)
     unknown_encoding = face_recognition.face_encodings(unknown_image)[0]
@@ -84,12 +85,48 @@ def face_accuracy(image, encodings):
     # find distance between encodings and image
     distance = face_distance(encodings, unknown_encoding)
 
-    # find closest one
-    print(distance)
-    close = distance.min()
+    if checked:
+        # find the fourth closest one
+        n = 3
+        close_arr = np.partition(distance, n)[n:]
+        print(close_arr)
+        # the first element in new array is the 4th highest
+        close = close_arr[0]
+    else:
+        # find closest one
+        close = distance.min()
 
-    face_match_threshold = .6
+    # find percentage look alike
+    return find_percentage(close, .4)
 
+
+def face_close_match(image, encodings, names, checked):
+    # load images for use
+    unknown_image = face_recognition.load_image_file(image)
+    unknown_encoding = face_recognition.face_encodings(unknown_image)[0]
+
+    # find distance between encodings and image
+    distance = face_distance(encodings, unknown_encoding)
+
+    if checked:
+        # find the fourth highest one
+        n = 3
+        ind_arr = np.argpartition(distance, n)[n:]
+        print(ind_arr)
+        ind = ind_arr[0]
+    else:
+        # find index of highest one
+        ind = distance.argmin()
+
+    # name of the max
+    name = names[ind]
+
+    source = name + '/' + name + '_face-1.jpg'
+
+    return source
+
+
+def find_percentage(close, face_match_threshold):
     if close > face_match_threshold:
         r = (1.0 - face_match_threshold)
         linear_val = (1.0 - close) / (r * 2.0)
@@ -98,27 +135,3 @@ def face_accuracy(image, encodings):
         r = face_match_threshold
         linear_val = 1.0 - (close / (r * 2.0))
         return linear_val + ((1.0 - linear_val) * math.pow((linear_val - 0.5) * 2, 0.2))
-
-
-def face_close_match(image, encodings, names):
-    # load images for use
-    unknown_image = face_recognition.load_image_file(image)
-    unknown_encoding = face_recognition.face_encodings(unknown_image)[0]
-
-    # find distance between encodings and image
-    distance = face_distance(encodings, unknown_encoding)
-
-    # find index of max
-    print(distance)
-    ind = distance.argmin()
-
-    # name of the max
-    # names.sort()
-    name = names[ind]
-
-    source = name + '/' + name + '_face-1.jpg'
-
-    for n in range(len(names)):
-        print(names[n]),
-
-    return source
