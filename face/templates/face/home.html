@@ -17,28 +17,30 @@
 
 
 
-    {% if submitted %}
-        <div class="row" label="card-holder">
+{% if submitted %}
+
+    <div class="row" label="card-holder">
         <div class="col-xl">
             <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
                 <div class="card-header">Header</div>
                     <div class="card-body">
-                        <img class="img-fluid" src="{{ upload.image.url }}">
+                        <img class="img-responsive" src="{{ upload.image.url }}">
                         <h4 class="card-title">{{ upload }}</h4>
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     </div>
             </div>
         </div>
-        <div class="col-xl">
-            <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
-                <div class="card-header">Header</div>
-                    <div class="card-body">
-                        <img class="img-fluid" src="/media/train_dir/{{ sim }}">
-                        <h4 class="card-title">Primary card title</h4>
-                        <p class="card-text">{{ acc }}</p>
-                    </div>
+            <div class="col-xl">
+                <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+                    <div class="card-header">Header</div>
+                        <div class="card-body">
+                            <img class="img-responsive" src="/media/train_dir/{{ sim }}">
+                            <h4 class="card-title">Primary card title</h4>
+                            <p class="card-text">{{ acc }}</p>
+                        </div>
+                </div>
             </div>
-        </div>
     </div>
-    {% endif %}
+{% endif %}
+
 {% endblock content %}

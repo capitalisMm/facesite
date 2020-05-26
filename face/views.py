@@ -17,7 +17,6 @@ def home(request):
     acc = ''
 
     sim = None
-
     if request.method == "POST":
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
@@ -26,7 +25,6 @@ def home(request):
             upload = Post.objects.last()
             checked = form.cleaned_data.get('check')
             messages.success(request, f'image uploaded successfully')
-            # print(checked)
     else:
         form = PostForm()
 
@@ -49,4 +47,4 @@ def home(request):
 
 # about page
 def about(request):
-    return render(request, 'face/about.html', {'title': 'About'})
+    return render(request, 'face/about.html', {'title': 'about'})

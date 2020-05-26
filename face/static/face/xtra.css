@@ -1,0 +1,5 @@
+.img-responsive {
+    width: 277px;
+    height: 277px;
+    object-fit: cover;
+}

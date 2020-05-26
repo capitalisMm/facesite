@@ -98,6 +98,7 @@ def face_accuracy(image, encodings, checked):
 
         # find percentage look alike
         return find_percentage(close, .5)
+
     except IndexError:
         print("Cannot locate face in this image. Try Again..")
         return None
@@ -135,16 +136,17 @@ def face_close_match(image, encodings, names, checked):
 
 
 def find_percentage(close, face_match_threshold):
-    try:
-        if close > face_match_threshold:
-            r = (1.0 - face_match_threshold)
-            linear_val = (1.0 - close) / (r * 2.0)
-            return linear_val
-        else:
-            r = face_match_threshold
-            linear_val = 1.0 - (close / (r * 2.0))
-            return linear_val + ((1.0 - linear_val) * math.pow((linear_val - 0.5) * 2, 0.2))
+    # im not sure how any of this works i copied it off github
+    if close > face_match_threshold:
+        r = (1.0 - face_match_threshold)
+        linear_val = (1.0 - close) / (r * 2.0)
+        linear_val = "{:.2%}".format(linear_val)
+        return linear_val
+    else:
+        r = face_match_threshold
+        linear_val = 1.0 - (close / (r * 2.0))
+        linear_val = linear_val + ((1.0 - linear_val) * math.pow((linear_val - 0.5) * 2, 0.2))
+        linear_val = "{:.2%}".format(linear_val)
+        return linear_val
 
-    except IndexError:
-        print('idiot')
-        return 0
+
