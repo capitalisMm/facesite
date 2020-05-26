@@ -1,11 +1,21 @@
 {% extends "face/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <form method="POST" class="uni-form" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="save btn-primary">upload</button>
-    </form>
+
+{% if not submitted %}
+    <div class="card border-primary mb-3">
+        <div class="card-header">header</div>
+        <div class="card-body">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btm btn-primary btn-lg">upload</button>
+            </form>
+        </div>
+    </div>
+{% endif %}
+
+
 
     {% if submitted %}
         <div class="row" label="card-holder">
