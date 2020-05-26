@@ -79,59 +79,72 @@ def magic(image, encodings, names):
 
 def face_accuracy(image, encodings, checked):
     # load images for use
-    unknown_image = face_recognition.load_image_file(image)
-    unknown_encoding = face_recognition.face_encodings(unknown_image)[0]
+    try:
+        unknown_image = face_recognition.load_image_file(image)
+        unknown_encoding = face_recognition.face_encodings(unknown_image)[0]
+        # find distance between encodings and image
+        distance = face_distance(encodings, unknown_encoding)
 
-    # find distance between encodings and image
-    distance = face_distance(encodings, unknown_encoding)
+        if checked:
+            # find the fourth closest one
+            n = 3
+            close_arr = np.partition(distance, n)[n:]
+            print(close_arr)
+            # the first element in new array is the 4th highest
+            close = close_arr[0]
+        else:
+            # find closest one
+            close = distance.min()
 
-    if checked:
-        # find the fourth closest one
-        n = 3
-        close_arr = np.partition(distance, n)[n:]
-        print(close_arr)
-        # the first element in new array is the 4th highest
-        close = close_arr[0]
-    else:
-        # find closest one
-        close = distance.min()
-
-    # find percentage look alike
-    return find_percentage(close, .4)
+        # find percentage look alike
+        return find_percentage(close, .5)
+    except IndexError:
+        print("Cannot locate face in this image. Try Again..")
+        return None
 
 
 def face_close_match(image, encodings, names, checked):
     # load images for use
-    unknown_image = face_recognition.load_image_file(image)
-    unknown_encoding = face_recognition.face_encodings(unknown_image)[0]
+    try:
+        unknown_image = face_recognition.load_image_file(image)
+        unknown_encoding = face_recognition.face_encodings(unknown_image)[0]
 
-    # find distance between encodings and image
-    distance = face_distance(encodings, unknown_encoding)
+        # find distance between encodings and image
+        distance = face_distance(encodings, unknown_encoding)
 
-    if checked:
-        # find the fourth highest one
-        n = 3
-        ind_arr = np.argpartition(distance, n)[n:]
-        print(ind_arr)
-        ind = ind_arr[0]
-    else:
-        # find index of highest one
-        ind = distance.argmin()
+        if checked:
+            # find the fourth highest one
+            n = 3
+            ind_arr = np.argpartition(distance, n)[n:]
+            print(ind_arr)
+            ind = ind_arr[0]
+        else:
+            # find index of highest one
+            ind = distance.argmin()
 
-    # name of the max
-    name = names[ind]
+        # name of the max
+        name = names[ind]
 
-    source = name + '/' + name + '_face-1.jpg'
+        source = name + '/' + name + '_face-1.jpg'
 
-    return source
+        return source
+    # if fail
+    except IndexError:
+        print('no')
+        return None
 
 
 def find_percentage(close, face_match_threshold):
-    if close > face_match_threshold:
-        r = (1.0 - face_match_threshold)
-        linear_val = (1.0 - close) / (r * 2.0)
-        return linear_val
-    else:
-        r = face_match_threshold
-        linear_val = 1.0 - (close / (r * 2.0))
-        return linear_val + ((1.0 - linear_val) * math.pow((linear_val - 0.5) * 2, 0.2))
+    try:
+        if close > face_match_threshold:
+            r = (1.0 - face_match_threshold)
+            linear_val = (1.0 - close) / (r * 2.0)
+            return linear_val
+        else:
+            r = face_match_threshold
+            linear_val = 1.0 - (close / (r * 2.0))
+            return linear_val + ((1.0 - linear_val) * math.pow((linear_val - 0.5) * 2, 0.2))
+
+    except IndexError:
+        print('idiot')
+        return 0

@@ -8,8 +8,6 @@ from .bitch import load_encodings, load_names, magic, face_accuracy, face_close_
 
 # home page
 def home(request):
-    # messages.success(request, f'image chosen successfully')
-
     # initialize
     submitted = False
     checked = False
@@ -27,7 +25,8 @@ def home(request):
             submitted = True
             upload = Post.objects.last()
             checked = form.cleaned_data.get('check')
-            print(checked)
+            messages.success(request, f'image uploaded successfully')
+            # print(checked)
     else:
         form = PostForm()
 
