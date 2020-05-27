@@ -15,10 +15,27 @@
     </div>
 {% endif %}
 
-
-
 {% if submitted %}
+    {% if failed %}
+            <div class="jumbotron">
+                <h1 class="display-3">something went wrong!</h1>
+                <p class="lead">oh no. you uploaded an image and something broke</p>
+                <hr class="my-4">
+                <p>a face could not be found in your image. try uploading another image!</p>
+                <img class="img-fluid" src="{{ upload.image.url }}">
+            </div>
+                <div class="card border-primary mb-3">
+        <div class="card-header">header</div>
+        <div class="card-body">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btm btn-primary btn-lg">upload</button>
+            </form>
+        </div>
+    </div>
 
+    {% else %}
     <div class="row" label="card-holder">
         <div class="col-xl">
             <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
@@ -41,6 +58,7 @@
                 </div>
             </div>
     </div>
+    {% endif %}
 {% endif %}
 
 {% endblock content %}

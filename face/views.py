@@ -9,6 +9,7 @@ from .bitch import load_encodings, load_names, magic, face_accuracy, face_close_
 # home page
 def home(request):
     # initialize
+    failed = False
     submitted = False
     checked = False
     ml_magic = ''
@@ -24,7 +25,7 @@ def home(request):
             submitted = True
             upload = Post.objects.last()
             checked = form.cleaned_data.get('check')
-            messages.success(request, f'image uploaded successfully')
+            # messages.success(request, f'image uploaded successfully')
     else:
         form = PostForm()
 
@@ -40,9 +41,13 @@ def home(request):
         # similar image to the one uploaded
         sim = face_close_match(upload.image, encodings, names, checked)
 
+    if acc or sim == -100:
+        failed = True
+
     return render(request, 'face/home.html', {'upload': upload, 'form': form,
                                               'submitted': submitted, 'ml_magic': ml_magic,
-                                              'acc': acc, 'sim': sim, 'checked': checked})
+                                              'acc': acc, 'sim': sim, 'checked': checked,
+                                              'failed': failed})
 
 
 # about page

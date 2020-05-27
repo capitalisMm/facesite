@@ -101,7 +101,7 @@ def face_accuracy(image, encodings, checked):
 
     except IndexError:
         print("Cannot locate face in this image. Try Again..")
-        return None
+        return -100
 
 
 def face_close_match(image, encodings, names, checked):
@@ -132,7 +132,7 @@ def face_close_match(image, encodings, names, checked):
     # if fail
     except IndexError:
         print('no')
-        return None
+        return -100
 
 
 def find_percentage(close, face_match_threshold):
