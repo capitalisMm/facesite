@@ -1,7 +1,21 @@
 {% extends "face/base.html" %}
 {% block content %}
-    <h1>About Page</h1>
-
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#home">about</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#links">links</a>
+  </li>
+</ul>
+<div id="myTabContent" class="tab-content">
+  <div class="tab-pane fade show active" id="home">
+    <p></p>
+  </div>
+  <div class="tab-pane fade" id="links">
+    <p></p>
+  </div>
+</div>
 
 
 

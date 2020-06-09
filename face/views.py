@@ -12,8 +12,8 @@ def home(request):
     failed = False
     submitted = False
     checked = False
-    ml_magic = ''
 
+    ml_magic = ''
     upload = ''
     acc = ''
 
@@ -41,8 +41,11 @@ def home(request):
         # similar image to the one uploaded
         sim = face_close_match(upload.image, encodings, names, checked)
 
-    if acc or sim == -100:
+    # if image broke
+    if acc == -100 or sim == -100:
+        print(acc + " " + sim)
         failed = True
+        print('something went wrong')
 
     return render(request, 'face/home.html', {'upload': upload, 'form': form,
                                               'submitted': submitted, 'ml_magic': ml_magic,
