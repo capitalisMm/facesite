@@ -3,62 +3,76 @@
 {% block content %}
 
 {% if not submitted %}
-    <div class="card border-primary mb-3">
-        <div class="card-header">header</div>
-        <div class="card-body">
-            <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btm btn-primary btn-lg">upload</button>
-            </form>
+<div class="card border-primary mb-3">
+    <div class="card-header">upload your image here and type in the name!<p>if the image is a picture of someone in
+        the dataset check the checkbox! otherwise it wont work lol</p></div>
+    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+        people already in the dataset </a>
+    <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+            <ul class="list-group">
+                <li class="list-group-item">blake schubert | christian fritz</li>
+                <li class="list-group-item">kaitlyn hall | nic broderick</li>
+                <li class="list-group-item">nico budde | noah jeffers</li>
+                <li class="list-group-item">sarah martin | spenser verret</li>
+                <li class="list-group-item">tony | will nickel</li>
+            </ul>
         </div>
     </div>
+    <div class="card-body">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btm btn-primary btn-lg">upload</button>
+        </form>
+    </div>
+</div>
 {% endif %}
 
 {% if submitted %}
-    {% if failed %}
-            <div class="jumbotron">
-                <h1 class="display-3">something went wrong!</h1>
-                <p class="lead">oh no. you uploaded an image and something broke</p>
-                <hr class="my-4">
-                <p>a face could not be found in your image. try uploading another image!</p>
-                <img class="img-fluid" src="{{ upload.image.url }}">
-            </div>
-                <div class="card border-primary mb-3">
-        <div class="card-header">header</div>
-        <div class="card-body">
-            <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btm btn-primary btn-lg">upload</button>
-            </form>
-        </div>
+{% if failed %}
+<div class="jumbotron">
+    <h1 class="display-3">something went wrong!</h1>
+    <p class="lead">oh no. you uploaded an image and something broke</p>
+    <hr class="my-4">
+    <p>a face could not be found in your image. try uploading another image!</p>
+    <img class="img-fluid" src="{{ upload.image.url }}">
+</div>
+<div class="card border-primary mb-3">
+    <div class="card-header">header</div>
+    <div class="card-body">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btm btn-primary btn-lg">upload</button>
+        </form>
     </div>
+</div>
 
-    {% else %}
-    <div class="row" label="card-holder">
-        <div class="col-xl">
-            <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
-                <div class="card-header">Header</div>
-                    <div class="card-body">
-                        <img class="img-responsive" src="{{ upload.image.url }}">
-                        <h4 class="card-title">{{ upload }}</h4>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
+{% else %}
+<div class="row" label="card-holder">
+    <div class="col-xl">
+        <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+            <div class="card-header">Header</div>
+            <div class="card-body">
+                <img class="img-responsive" src="{{ upload.image.url }}">
+                <h4 class="card-title">{{ upload }}</h4>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
             </div>
         </div>
-            <div class="col-xl">
-                <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
-                    <div class="card-header">Header</div>
-                        <div class="card-body">
-                            <img class="img-responsive" src="/media/train_dir/{{ sim }}">
-                            <h4 class="card-title">Primary card title</h4>
-                            <p class="card-text">{{ acc }}</p>
-                        </div>
-                </div>
-            </div>
     </div>
-    {% endif %}
+    <div class="col-xl">
+        <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+            <div class="card-header">Header</div>
+            <div class="card-body">
+                <img class="img-responsive" src="/media/train_dir/{{ sim }}">
+                <h4 class="card-title">{{ source }}</h4>
+                <p class="card-text">{{ acc }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
 {% endif %}
 
 {% endblock content %}

@@ -1,9 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from .models import Post
-from django.contrib import messages
-from django.utils import timezone
 from .forms import PostForm
-from .bitch import load_encodings, load_names, magic, face_accuracy, face_close_match
+from .bitch import load_encodings, load_names, face_accuracy, face_close_match
 
 
 # home page
@@ -16,6 +14,7 @@ def home(request):
     ml_magic = ''
     upload = ''
     acc = ''
+    source = ''
 
     sim = None
     if request.method == "POST":
@@ -39,18 +38,20 @@ def home(request):
         acc = face_accuracy(upload.image, encodings, checked)
 
         # similar image to the one uploaded
-        sim = face_close_match(upload.image, encodings, names, checked)
+        source = face_close_match(upload.image, encodings, names, checked)
+        sim = source + '/' + source + '_face-1.jpg'
+
+        source = source.replace('_', ' ')
 
     # if image broke
     if acc == -100 or sim == -100:
-        print(acc + " " + sim)
         failed = True
         print('something went wrong')
 
     return render(request, 'face/home.html', {'upload': upload, 'form': form,
                                               'submitted': submitted, 'ml_magic': ml_magic,
                                               'acc': acc, 'sim': sim, 'checked': checked,
-                                              'failed': failed})
+                                              'failed': failed, 'source': source})
 
 
 # about page

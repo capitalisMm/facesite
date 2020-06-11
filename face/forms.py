@@ -6,11 +6,10 @@ from crispy_forms.layout import Submit, Layout, Fieldset, ButtonHolder
 
 class PostForm(forms.ModelForm):
 
-    check = forms.BooleanField(required=False)
-
     class Meta:
         model = Post
         fields = ('title', 'image', 'check')
+        labels = {'title': 'name', 'image': 'image', 'check': 'check'}
 
 
 

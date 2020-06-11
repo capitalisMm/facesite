@@ -126,7 +126,7 @@ def face_close_match(image, encodings, names, checked):
         # name of the max
         name = names[ind]
 
-        source = name + '/' + name + '_face-1.jpg'
+        source = name
 
         return source
     # if fail
