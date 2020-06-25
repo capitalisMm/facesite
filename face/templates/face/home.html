@@ -53,21 +53,21 @@
 <div class="row" label="card-holder">
     <div class="col-xl">
         <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
-            <div class="card-header">Header</div>
+            <div class="card-header">chosen image</div>
             <div class="card-body">
                 <img class="img-responsive" src="{{ upload.image.url }}">
                 <h4 class="card-title">{{ upload }}</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text">this is the image you chose</p>
             </div>
         </div>
     </div>
     <div class="col-xl">
         <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
-            <div class="card-header">Header</div>
+            <div class="card-header">closest match image</div>
             <div class="card-body">
                 <img class="img-responsive" src="/media/train_dir/{{ sim }}">
                 <h4 class="card-title">{{ source }}</h4>
-                <p class="card-text">{{ acc }}</p>
+                <p class="card-text">there is a {{ acc }}% resemblance!</p>
             </div>
         </div>
     </div>
