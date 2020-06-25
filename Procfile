@@ -1,0 +1,1 @@
+web: gunicorn facesite.wsgi --log-file -
