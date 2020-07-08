@@ -41,9 +41,9 @@ RUN cd ~ && \
 #     pip3 install -r requirements.txt
 # RUN whatever_command_you_run_to_start_your_app
 
-COPY . home/urban/facesite
-RUN cd home/urban/facesite && \
+#COPY . home/urban/facesite
+#RUN cd home/urban/facesite && \
     pip3 install -r requirements.txt
 
-CMD cd home/urban/facesite/ && \
-    python3 recognize_faces_in_pictures.py
+#CMD cd home/urban/facesite/ && \
+    #python3 recognize_faces_in_pictures.py
