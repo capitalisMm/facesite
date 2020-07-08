@@ -24,6 +24,11 @@ RUN apt-get install -y --fix-missing \
     python3-numpy \
     software-properties-common \
     zip \
+    postgresql \
+    postgresql-contrib \
+    libpq-dev \
+    python-dev \
+
     && apt-get clean && rm -rf /tmp/* /var/tmp/*
 
 RUN cd ~ && \
@@ -41,10 +46,6 @@ RUN cd ~ && \
 #     pip3 install -r requirements.txt
 # RUN whatever_command_you_run_to_start_your_app
 
-RUN apt-get install postgresql \
-    postgresql-contrib \
-    libpq-dev \
-    python-dev
 
 COPY ./requirements.txt .
 
