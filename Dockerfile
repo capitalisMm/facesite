@@ -41,8 +41,9 @@ RUN cd ~ && \
 #     pip3 install -r requirements.txt
 # RUN whatever_command_you_run_to_start_your_app
 
-#COPY . home/urban/facesite
-RUN  pip3 install -r requirements.txt
+COPY ./requirements.txt .
 
-#CMD cd home/urban/facesite/ && \
-    #python3 recognize_faces_in_pictures.py
+RUN pip install -r requirements.txt && \
+    python manage.py collectstaic --noinput
+
+CMD gunicorn hello_django.wsgi:application --bind 0.0.0.0:$PORT
