@@ -2,7 +2,12 @@
 
 FROM python:3.6-slim-stretch
 
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+ENV DEBUG 0
+
 RUN apt-get -y update
+
 RUN apt-get install -y --fix-missing \
     build-essential \
     cmake \
@@ -44,7 +49,11 @@ RUN cd ~ && \
 
 COPY ./requirements.txt .
 
-RUN pip install -r requirements.txt && \
-    python manage.py collectstaic --noinput
+RUN pip install -r requirements.txt
 
-CMD gunicorn hello_django.wsgi:application --bind 0.0.0.0:$PORT
+COPY . .
+RUN adduser -D myuser
+USER myuser
+
+CMD gunicorn django_project.wsgi:application --bind 0.0.0.0:$PORT
+
